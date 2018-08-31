@@ -1,19 +1,13 @@
-pipeline {
-    agent any
-   
+node {
+    
+    stage 'Checkout DSA' 
+    checkout scm
 
-        stage 'Checkout DSA' 
-    	checkout scm
-
-        stage ('Build') {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
-        }
+  stage('SonarQube analysis') {
+    withSonarQubeEnv('Sonar') {
+      // requires SonarQube Scanner for Maven 3.2+
+      sh 'chmod 755 mvnw'
+      sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
     }
-}
+  }
+  }
