@@ -1,6 +1,10 @@
-node {
-    
-    stage 'Checkout DSA' 
+pipeline {
+  agent any
+  tools {
+    maven 'M3'
+  }
+  stages {
+   stage 'Checkout DSA' 
     checkout scm
 
   stage('SonarQube analysis') {
@@ -10,3 +14,4 @@ node {
     }
   }
   }
+}
