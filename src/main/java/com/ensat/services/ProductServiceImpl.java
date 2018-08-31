@@ -38,6 +38,8 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Integer id) {
         int b=10;
         int c=b+10;
+
+        
         System.out.println("C"+c);
         productRepository.delete(id);
     }
