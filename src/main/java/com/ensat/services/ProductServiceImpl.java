@@ -39,7 +39,6 @@ public class ProductServiceImpl implements ProductService {
         int b=10;
         int c=b+10;
 
-        
         System.out.println("C"+c);
         productRepository.delete(id);
     }
