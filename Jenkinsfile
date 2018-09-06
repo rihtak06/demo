@@ -20,16 +20,20 @@ pipeline {
     
     }
   }
-  stage ("Build Docker Image and push to Registry") {
-  steps {
-    withRegistry('https://hub.docker.com/', 'docker-registry') {
-        def dockerFileLocation = '.'
-        def dsa = docker.build("manickamsw/demo",dockerFileLocation)
-        dsa.push()
+  stage ("Build Docker Image ")  {
+      steps {
+        sh 'docker build -t manickamsw/demo .'
+      }
+      
+      }
+  stage ("Publish Image") {
+    steps {
+      withDockerRegistry([ credentialsId: "docker-registry", url: "" ]) {
+          sh 'docker push manickamsw/demo:latest'
+        }
     }
   }
-  } 
-  
+
 
   stage("Quality Gate") {
             steps {
