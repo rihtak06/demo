@@ -19,10 +19,15 @@ volumes: [
     stage('Create Docker images') {
     checkout scm 
       container('docker') {
-         sh """
-            docker build -t namespace/my-image:${gitCommit} .
-            docker push manickamsw/demo:latest
-            """
+        // sh """
+        //    docker build -t namespace/my-image:${gitCommit} .
+        //    docker push manickamsw/demo:latest
+        //    """
+        docker.withRegistry('https://hub.docker.com', 'docker-registry') {
+        def dockerFileLocation = '.'
+        def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
+        demo.push()
+    }
       }
     }
     stage('Run kubectl') {
