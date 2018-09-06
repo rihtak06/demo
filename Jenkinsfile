@@ -31,7 +31,7 @@ volumes: [
     stage('Deploy Demo App') {
       container('kubectl') {
         sh "kubectl run --image=manickamsw/demo demo-app --port=8085"
-        sh "kubectl expose deployment demo-app --port=8085 --name=demo-app-http"
+       sh "kubectl expose deployment demo-app --port=8085 --type=LoadBalancer --name=demo-app-http "
       }
     }
 
