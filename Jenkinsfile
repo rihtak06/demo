@@ -1,57 +1,39 @@
-pipeline {
-  agent any
-  tools {
-    maven 'M3'
-  }
-  stages {
-   stage ('Checkout DSA') 
-    {
-    steps {
-    	checkout scm
-	}
-	}
-  stage('SonarQube analysis') {
-  steps {
-    withSonarQubeEnv('SONAR') {
-    	sh 'mvn clean install -DskipTests=true'
-      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar' 
-      sh 'cp ./target/*.jar ./test.jar'
-    }
-    
-    }
-  }
+def label = "worker-${UUID.randomUUID().toString()}"
 
-   stage ("Build Docker Image ")  {
-      steps {
-       podTemplate(label: label, containers: [
+podTemplate(label: label, containers: [
+        containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-]) 
-
-        sh 'docker build -t manickamsw/demo .'
-      }
+]) {
+  node(label) {
+   
       
+
+
+ 
+    stage('Create Docker images') {
+    checkout scm 
+      container('docker') {
+         sh """
+            docker build -t namespace/my-image:${gitCommit} .
+            docker push manickamsw/demo:latest
+            """
       }
-  stage ("Publish Image") {
-    steps {
-      withDockerRegistry([ credentialsId: "docker-registry", url: "" ]) {
-          sh 'docker push manickamsw/demo:latest'
-        }
     }
-  }
-
-
-  stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+    stage('Run kubectl') {
+      container('kubectl') {
+        sh "kubectl get pods"
+      }
+    }
+    stage('Run helm') {
+      container('helm') {
+        sh "helm list"
+      }
+    }
   }
 }
