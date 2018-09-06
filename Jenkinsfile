@@ -19,7 +19,7 @@ volumes: [
     stage('Create Docker images') {
     checkout scm 
       container('docker') {
-        docker.withRegistry('https://hub.docker.com', 'docker-registry') {
+        docker.withRegistry('', 'docker-registry') {
         def dockerFileLocation = '.'
         def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
         demo.push()
