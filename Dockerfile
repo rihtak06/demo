@@ -10,7 +10,7 @@ COPY ./target/*.jar /app.jar
 
 CMD echo "The application will start in ${SLEEP}s..." && \
     sleep ${SLEEP} && \
-    java ${JAVA_OPTS}  -jar /app.jar
+    java ${JAVA_OPTS}  -Dserver.port=8085  -jar /app.jar
 
 EXPOSE 8085
 

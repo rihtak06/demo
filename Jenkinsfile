@@ -12,13 +12,15 @@ volumes: [
 ]) {
   node(label) {
    
-      
-
-
  
     stage('Create Docker images') {
     checkout scm 
+     container('maven') {
+        sh 'mvn clean install -DskipTests=true'
+      }
       container('docker') {
+          sh 'ls -l'
+          sh 'ls -l target'
         docker.withRegistry('', 'docker-registry') {
         def dockerFileLocation = '.'
         def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
