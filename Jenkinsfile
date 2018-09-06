@@ -15,7 +15,7 @@ pipeline {
     withSonarQubeEnv('SONAR') {
     	sh 'mvn clean install -DskipTests=true'
       sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar' 
-      sh 'cp ./target/*.war ./test.war'
+      sh 'cp ./target/*.jar ./test.jar'
     }
     
     }
