@@ -5,7 +5,7 @@ podTemplate(label: label, containers: [
 
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
+  // containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -19,10 +19,6 @@ volumes: [
     stage('Create Docker images') {
     checkout scm 
       container('docker') {
-        // sh """
-        //    docker build -t namespace/my-image:${gitCommit} .
-        //    docker push manickamsw/demo:latest
-        //    """
         docker.withRegistry('https://hub.docker.com', 'docker-registry') {
         def dockerFileLocation = '.'
         def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
@@ -30,15 +26,12 @@ volumes: [
     }
       }
     }
-    stage('Run kubectl') {
+    stage('Deploy Demo App') {
       container('kubectl') {
-        sh "kubectl get pods"
+        sh "kubectl run --image=manickamsw/demo demo-app --port=8085"
+        sh "kubectl expose deployment demo-app --port=8085 --name=demo-app-http"
       }
     }
-    stage('Run helm') {
-      container('helm') {
-        sh "helm list"
-      }
-    }
+
   }
 }
