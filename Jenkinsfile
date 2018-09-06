@@ -22,7 +22,7 @@ pipeline {
   }
   stage ("Build Docker Image and push to Registry") {
   steps {
-    docker.withRegistry('https://hub.docker.com/', 'docker-registry') {
+    withRegistry('https://hub.docker.com/', 'docker-registry') {
         def dockerFileLocation = '.'
         def dsa = docker.build("manickamsw/demo",dockerFileLocation)
         dsa.push()
