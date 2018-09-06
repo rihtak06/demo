@@ -19,8 +19,6 @@ volumes: [
         sh 'mvn clean install -DskipTests=true'
       }
       container('docker') {
-          sh 'ls -l'
-          sh 'ls -l target'
         docker.withRegistry('', 'docker-registry') {
         def dockerFileLocation = '.'
         def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
@@ -34,6 +32,22 @@ volumes: [
        sh "kubectl expose deployment demo-app --port=8085 --type=LoadBalancer --name=demo-app-http "
       }
     }
+      stage ('Checkout DSA') 
+    {
+    steps {
+      checkout scm 
+  }
+  }
+//  stage('SonarQube analysis') {
+//  steps {
+//    withSonarQubeEnv('SONAR') {
+//      sh 'mvn clean install -DskipTests=true'
+//      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar' 
+//      sh 'cp ./target/*.jar ./test.jar'
+//    }
+//    
+//    }
+//  }
 
   }
 }
