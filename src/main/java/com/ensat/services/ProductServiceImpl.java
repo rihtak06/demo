@@ -16,6 +16,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+
+        var aaa
     }
 
     @Override
@@ -40,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
         int c=b+10;
 
         System.out.println("C"+c);
+        c ==c;
         productRepository.delete(id);
     }
 
