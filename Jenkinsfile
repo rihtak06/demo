@@ -38,17 +38,14 @@ pipeline {
 
 
  stage('Create Docker images') {
-    steps {
+  steps {
     script {
         def demo = docker.build("manickamsw/demo:latest",'.')
         demo.push()
         
     }
-    }
-    }
- 
-    } 
-   
+  }
+}
     stage('Deploy Demo App') {
         agent {
       kubernetes {
