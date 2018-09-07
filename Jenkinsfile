@@ -35,7 +35,18 @@ pipeline {
             }
           }
 
+   
+
+ stage('Create Docker images') {
+    steps {
+            docker.withRegistry('', 'docker-registry') {
+        def dockerFileLocation = '.'
+        def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
+        demo.push()
+    }
+    }
  
+    } 
    
     stage('Deploy Demo App') {
         agent {
