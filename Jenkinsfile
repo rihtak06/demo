@@ -31,7 +31,7 @@ pipeline {
   
     stage("Quality Gate") {
             steps {
-                             waitForQualityGate abortPipeline: true
+              waitForQualityGate abortPipeline: true
             }
           }
 
@@ -50,10 +50,9 @@ pipeline {
     }
   }
       steps {
- container('kubectl') {
-      sh "kubectl apply -f ./k8s/"
-       
-      }
+        container('kubectl') {
+            sh "kubectl apply -f ./k8s/"
+          }
       }
      
     }
