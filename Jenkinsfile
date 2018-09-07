@@ -28,14 +28,7 @@ volumes: [
     }
     stage('Deploy Demo App') {
       container('kubectl') {
-      try {
-                sh "kubectl delete -f ./k8s/"
-
-      }
-      catch (err) {
-        echo "Unable to delete: $err"
-      }
-        sh "kubectl apply -f ./k8s/"
+      sh "kubectl apply -f ./k8s/"
        
       }
     }
