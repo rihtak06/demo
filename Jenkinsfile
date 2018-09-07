@@ -23,13 +23,17 @@ pipeline {
       sh 'cp ./target/*.jar ./test.jar'
          
     }
+ 
     
-    waitForQualityGate abortPipeline: true
     
     }
   }
-
-
+  
+    stage("Quality Gate") {
+            steps {
+                             waitForQualityGate abortPipeline: true
+            }
+          }
 
  
    
