@@ -39,13 +39,31 @@ pipeline {
 
 
  stage('Create Docker images') {
+     agent {
+        kubernetes {
+            label 'docker'
+            podTemplate {
+                volumes {
+                    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+                }
+                containerTemplate {
+                    name 'docker'
+                    image 'docker'
+                    ttyEnabled true
+                    command 'cat'
+                }
+            }
+        }
+    }
   steps {
     script {
+     container('kubectl') {
         def demo = docker.build("manickamsw/demo:latest",'.')
         demo.push()
         
     }
   }
+}
 }
     stage('Deploy Demo App') {
         agent {
