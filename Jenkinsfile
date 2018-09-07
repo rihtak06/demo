@@ -38,15 +38,14 @@ pipeline {
 
 
  stage('Create Docker images') {
-    node("docker build") {
-       docker.withRegistry('', 'docker-registry') {
-        def dockerFileLocation = '.'
-        def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
+    steps {
+    script {
+        def demo = docker.build("manickamsw/demo:latest",'.')
         demo.push()
+        
     }
-    
     }
-           
+    }
  
     } 
    
