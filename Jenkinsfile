@@ -13,9 +13,6 @@ pipeline {
   }
   stage('SonarQube analysis') {
     agent any 
-    tools {
-    maven 'M3'
-  }
   steps {
     withSonarQubeEnv('SONAR') {
       sh 'mvn clean install -DskipTests=true'
