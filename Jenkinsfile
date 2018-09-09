@@ -31,7 +31,7 @@ pipeline {
   
     stage("Quality Gate") {
             steps {
-              sleep(30)
+              sleep(5)
               waitForQualityGate abortPipeline: true
             }
           }
@@ -39,24 +39,18 @@ pipeline {
 
 
  stage('Create Docker images') {
-    podTemplate(label: label, containers: [
-  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-],
-volumes: [
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-  hostPathVolume(mountPath: './', hostPath: './')
+ steps {
 
-]) {
-  node(label) { 
-      container('docker') {
-         sh """
-            
-            docker build -t namespace/my-image:${gitCommit} .
-            """
-      }
+  script {
+       docker.withRegistry('', 'docker-registry') {
+        def dockerFileLocation = '.'
+        def demo = docker.build("manickamsw/demo:latest",dockerFileLocation)
+        demo.push()
+    }
     
+  }
 }
-}
+
 }
     stage('Deploy Demo App') {
         agent {
