@@ -49,25 +49,25 @@ pipeline {
 }
 
 }
-    stage('Deploy Demo App') {
-        agent {
-      kubernetes {
-      label 'kubectl'
-      containerTemplate {
-        name 'kubectl'
-        image 'lachlanevenson/k8s-kubectl:v1.8.8'
-        ttyEnabled true
-        command 'cat'
-      }
-    }
-  }
-      steps {
-        container('kubectl') {
-            sh "kubectl apply -f ./k8s/"
-          }
-      }
+//    stage('Deploy Demo App') {
+//        agent {
+//      kubernetes {
+//      label 'kubectl'
+//      containerTemplate {
+//        name 'kubectl'
+//        image 'lachlanevenson/k8s-kubectl:v1.8.8'
+//        ttyEnabled true
+//        command 'cat'
+//      }
+//    }
+//  }
+//      steps {
+//        container('kubectl') {
+//            sh "kubectl apply -f ./k8s/"
+//          }
+//      }
      
-    }
+//    }
 
   }
               }
