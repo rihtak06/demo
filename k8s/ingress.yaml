@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins-ingress
+spec:
+  tls:
+  - hosts:
+      - demo.steerwise.io
+  rules:
+  - host: demo.steerwise.io
+    http: 
+      paths:      
+      - path: /
+        backend:
+          serviceName: demo-app-service
+          servicePort: 8085
