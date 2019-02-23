@@ -78,6 +78,21 @@
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+               <groupId>com.spotify</groupId>
+               <artifactId>dockerfile-maven-plugin</artifactId>
+               <version>1.4.7</version>
+               
+               <configuration>              
+                    <contextDirectory>../</contextDirectory>
+                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>             
+                    <repository>${repo}</repository>
+                    <tag>${tag}</tag>
+                    <buildArgs>
+                         <ENV_NAME>${env}</ENV_NAME>                        
+                    </buildArgs>       
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

@@ -84,14 +84,7 @@ spec:
     
     steps {
         container('maven') {
-        script {
-           
-      docker.withRegistry('https://931604932544.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:ECR') {
-          def dockerFileLocation = '-f Dockerfile .'
-          def mdmAPP = docker.build("demo:v$BUILD_NUMBER",dockerFileLocation)
-          mdmAPP.push()
-          }   
-          }
+        sh 'mvn -f ./pom.xml dockerfile:build dockerfile:push -D repo=931604932544.dkr.ecr.us-east-2.amazonaws.com/demo -D tag=v$BUILD_NUMBER'
     }
     }
   }
