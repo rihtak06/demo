@@ -13,6 +13,7 @@ spec:
   containers:
   - name: maven
     image: 931604932544.dkr.ecr.us-east-2.amazonaws.com/jenkins-slave:devops
+    imagePullPolicy: Always
     command:
     - cat
     tty: true
