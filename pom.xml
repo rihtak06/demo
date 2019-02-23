@@ -77,6 +77,9 @@
                     </goals>
                 </execution>
             </executions>
+              <configuration>
+                        <testResultsTimestamp>false</testResultsTimestamp>
+                    </configuration>
         </plugin>
         <plugin>
                <groupId>com.spotify</groupId>

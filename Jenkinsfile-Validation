@@ -40,7 +40,7 @@ spec:
                     
                     sh 'Xvfb :0 >& /dev/null &'
                     sh 'mvn clean verify -Dmaven.test.failure.ignore=true'
-                    perfReport 'target/jmeter/results/dsa.jtl'
+                    perfReport 'target/jmeter/results/DEMO.jtl'
                     
                 
             }
