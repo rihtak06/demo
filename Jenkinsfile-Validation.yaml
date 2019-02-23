@@ -30,8 +30,6 @@ spec:
 """
     }
   }
-  stages
-  {
 
   stage('jmeter Testing using maven') {
            
