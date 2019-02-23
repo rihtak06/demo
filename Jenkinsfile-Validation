@@ -68,7 +68,7 @@ spec:
             container('maven') {                
                     
                                      
-                    sh 'mvn  -Dtest=com.steerwise.sat.selenium.JMeterSeleniumDemoTest test -Dmaven.test.failure.ignore=true'
+                    sh 'mvn  -Dtest=com.steerwise.sat.junit.ProductIntTest test -Dmaven.test.failure.ignore=true'
                     junit 'target/surefire-reports/junitreports/*.xml'                 
                     
                 
