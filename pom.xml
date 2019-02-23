@@ -81,11 +81,10 @@
         <plugin>
                <groupId>com.spotify</groupId>
                <artifactId>dockerfile-maven-plugin</artifactId>
-               <version>1.4.7</version>
-               
+               <version>1.4.7</version>               
                <configuration>              
-                    <contextDirectory>../</contextDirectory>
-                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>             
+                    <contextDirectory>.</contextDirectory>
+                    <!-- <useMavenSettingsForAuth>true</useMavenSettingsForAuth>              -->
                     <repository>${repo}</repository>
                     <tag>${tag}</tag>
                     <buildArgs>
