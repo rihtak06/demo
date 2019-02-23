@@ -61,7 +61,7 @@ public class JMeterSeleniumDemoTest {
 
    
    @Test
-public void testAuthenticationFailureWhenProvidingBadCredentials() throws InterruptedException{
+   public void testAuthenticationFailureWhenProvidingBadCredentials() throws InterruptedException{
   driver.findElement(By.xpath("//a[@href='/product/new']")).click();
   
     driver.findElement(By.id("productId")).sendKeys("1");

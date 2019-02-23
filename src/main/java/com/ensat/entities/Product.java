@@ -22,7 +22,7 @@ public class Product {
 
     private String productId;
     private String name;
-    private BigDecimal price;
+    private double price;
 
     public String getName() {
         return name;
@@ -56,12 +56,12 @@ public class Product {
         this.productId = productId;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPrice(double d) {
+        this.price = d;
     }
 
 }

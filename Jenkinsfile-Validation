@@ -40,8 +40,36 @@ spec:
             container('maven') {                
                     
                     sh 'Xvfb :0 >& /dev/null &'
-                    sh 'mvn clean verify -Dmaven.test.failure.ignore=true'
+                    sh' mvn jmeter:jmeter -Pjmeter'                    
                     perfReport 'target/jmeter/results/DEMO.jtl'
+                    
+                
+            }
+            }
+        } 
+
+        stage('Selenium Testing using maven') {
+           
+            steps {
+            container('maven') {                
+                    
+                    sh 'Xvfb :0 >& /dev/null &'                    
+                    sh 'mvn    -Dtest=com.steerwise.sat.selenium.JMeterSeleniumDemoTest test  -Dmaven.test.failure.ignore=true'
+                                      
+                    
+                
+            }
+            }
+        } 
+
+        stage('Junit Testing using maven') {
+           
+            steps {
+            container('maven') {                
+                    
+                                     
+                    sh 'mvn  -Dtest=com.steerwise.sat.selenium.JMeterSeleniumDemoTest test -Dmaven.test.failure.ignore=true'
+                    junit 'target/surefire-reports/junitreports/*.xml'                 
                     
                 
             }
