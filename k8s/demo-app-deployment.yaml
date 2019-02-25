@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: manickamsw/demo
+        image: 931604932544.dkr.ecr.us-east-2.amazonaws.com/demo:v14
         imagePullPolicy: Always
         ports:
         - containerPort: 8085
