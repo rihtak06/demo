@@ -65,23 +65,18 @@ spec:
             steps {
             container('maven') {
                 withSonarQubeEnv('SONAR') {
-                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'               
-                    
-                    
-                }
-            }
-            }
-        }
-
-
-     stage("Code Quality Gate") {
-            steps {
-              container('maven') {
-                sleep(60)
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+                     sleep(60)
                 waitForQualityGate abortPipeline: true
+                    
+                    
                 }
             }
+            }
         }
+
+
+    
 
     stage("Build Docker Image") {
     
@@ -96,6 +91,7 @@ spec:
      
             steps {
              container('maven') {
+                sh 'docker images'
                 sh 'echo "931604932544.dkr.ecr.us-east-2.amazonaws.com/demo:v$BUILD_NUMBER ${WORKSPACE}/Dockerfile " > anchore_images'
                 anchore name: 'anchore_images',bailOnFail: false, bailOnPluginFail: false
                 
