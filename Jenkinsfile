@@ -53,7 +53,7 @@ spec:
                 }
                 
                     sh 'mvn clean install -DskipTests'
-                    bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+                   
 
                 
             }
