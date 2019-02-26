@@ -52,7 +52,9 @@ spec:
                     sh '/tmp/refresh.sh'
                 }
                 
-                    sh 'mvn clean install -DskipTests'              
+                    sh 'mvn clean install -DskipTests'
+                    bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+
                 
             }
             }
@@ -110,6 +112,7 @@ spec:
             }
             }
         }
+        
      
   }
 }
