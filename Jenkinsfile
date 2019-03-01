@@ -146,20 +146,14 @@ stage('Code Vulnerability Analysis') {
         sh 'docker tag $DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER $DOCKER_REGISTRY/test:$DOCKER_REPO-v$BUILD_NUMBER'
         sh 'docker images'
         sh 'mvn  dockerfile:push -D repo=$DOCKER_REGISTRY/test -D tag=$DOCKER_REPO-v$BUILD_NUMBER'
+        sh'''
+                    docker rmi $DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER $DOCKER_REGISTRY/test:$DOCKER_REPO-v$BUILD_NUMBER
+                '''
     }
     }
   }
 
-  stage('Cleanup Temp Images') {
-      
-            steps {
-             container('maven') {
-                sh'''
-                    docker rmi $DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER $DOCKER_REGISTRY/test:$DOCKER_REPO-v$BUILD_NUMBER
-                '''
-            }
-            }
-  }
+
         
 
   stage ("Deploy in Testing ") {
@@ -202,14 +196,14 @@ stage('Code Vulnerability Analysis') {
                     
                     sh 'Xvfb :0 >& /dev/null &'
                     sh' mvn jmeter:jmeter -Pjmeter'                    
-                    perfReport 'target/jmeter/results/DEMO.jtl'
+                    // perfReport 'target/jmeter/results/DEMO.jtl'
                     
                 
             }
             }
         } 
 
-  stage('FUnctional Testing') {
+  stage('Functional Testing') {
            
             steps {
             container('maven') {                
