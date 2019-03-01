@@ -65,6 +65,20 @@ spec:
             }
         }
 
+          stage('Unit Testing') {
+           
+            steps {
+            container('maven') {            
+                    
+                                     
+                    sh 'mvn  -Dtest=com.steerwise.sat.junit.ProductIntTest test -Dmaven.test.failure.ignore=true'
+                                    
+                    
+                
+            }
+            }
+        } 
+
       stage('Code Quality Analysis') {
            
             steps {
@@ -91,19 +105,7 @@ stage('Code Vulnerability Analysis') {
             }
             }
         }
-  stage('Unit Testing') {
-           
-            steps {
-            container('maven') {            
-                    
-                                     
-                    sh 'mvn  -Dtest=com.steerwise.sat.junit.ProductIntTest test -Dmaven.test.failure.ignore=true'
-                                    
-                    
-                
-            }
-            }
-        } 
+
 
 
 
@@ -267,7 +269,7 @@ stage('Code Vulnerability Analysis') {
             }
             success
             {
-                bitbucketStatusNotify(buildState: 'SUCCESS')
+                bitbucketStatusNotify(buildState: 'SUCCESSFUL')
                 emailext body: '${DEFAULT_CONTENT}',subject: '${DEFAULT_SUBJECT}', to: '$DEFAULT_RECIPIENTS'
                 
             }
