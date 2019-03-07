@@ -5,9 +5,9 @@ metadata:
 spec:
   tls:
   - hosts:
-      - test-demo.assetdevops.steerwise.io
+      - stg-demo.assetdevops.steerwise.io
   rules:
-  - host: test-demo.assetdevops.steerwise.io
+  - host: stg-demo.assetdevops.steerwise.io
     http: 
       paths:      
       - path: /
