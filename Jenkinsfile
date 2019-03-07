@@ -40,7 +40,7 @@ spec:
     
 
     stage('Build') {
-     when{  expression { return params.BUILD==true; } }
+        when{  expression { return params.BUILD==true; } }
            
             steps {
             container('maven') {
