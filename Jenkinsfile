@@ -12,7 +12,7 @@ metadata:
 spec:
   containers:
   - name: maven
-    image: 931604932544.dkr.ecr.us-east-2.amazonaws.com/jenkins-slave:devops
+    image: $DOCKER_REGISTRY/jenkins-slave:devops
     imagePullPolicy: Always
     command:
     - cat
@@ -32,7 +32,7 @@ spec:
     }
   }
   environment {
-        DOCKER_REGISTRY= '931604932544.dkr.ecr.us-east-2.amazonaws.com'
+       
         DOCKER_REPO    = 'demo'
 
     }
@@ -80,6 +80,7 @@ spec:
         } 
 
       stage('Code Quality Analysis') {
+      when { environment name: 'CODEQUALITY', value: True }
            
             steps {
             container('maven') {
@@ -156,100 +157,7 @@ stage('Code Vulnerability Analysis') {
 
         
 
-  stage ("Deploy in Testing ") {
-        steps
-        {
-        container('maven') 
-          {
-            script
-            {
-              callback_url = registerWebhook()
-              echo "Waiting for POST to ${callback_url.getURL()}"
-
-              sh "curl -X POST -H 'Content-Type: application/json' -d '{\"callback\":\"${callback_url.getURL()}\",\"image\":\"$DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER\"}' https://spinnaker.assetdevops.steerwise.io/gate/webhooks/webhook/demo"
-
-              data = waitForWebhook callback_url
-              echo "Webhook called with data: ${data}"
-             
-              
-              def props = readJSON text: data
-              
-              if (props['status']=='success')
-              {
-                  echo "success"
-                  
-              }
-              else
-              {
-                 error("Build failed because of this and that..")
-              }
-              
-              
-            }
-          }
-       }
-  }
-  stage('Load Testing') {
-           
-            steps {
-            container('maven') {                
-                    
-                    sh 'Xvfb :0 >& /dev/null &'
-                    sh' mvn jmeter:jmeter -Pjmeter'                    
-                    // perfReport 'target/jmeter/results/DEMO.jtl'
-                    
-                
-            }
-            }
-        } 
-
-  stage('Functional Testing') {
-           
-            steps {
-            container('maven') {                
-                    
-                    sh 'Xvfb :0 >& /dev/null &'                    
-                    sh 'mvn    -Dtest=com.steerwise.sat.selenium.JMeterSeleniumDemoTest test  -Dmaven.test.failure.ignore=true'
-                                      
-                    
-                
-            }
-            }
-  } 
-
-  // stage ("Deploy in Staging ") {
-  //       steps
-  //       {
-  //       container('maven') 
-  //         {
-  //           script
-  //           {
-  //             callback_url = registerWebhook()
-  //             echo "Waiting for POST to ${callback_url.getURL()}"
-
-  //             sh "curl -X POST -H 'Content-Type: application/json' -d '{\"callback\":\"${callback_url.getURL()}\",\"image\":\"$DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER\"}' https://spinnaker.assetdevops.steerwise.io/gate/webhooks/webhook/demo-stg"
-
-  //             data = waitForWebhook callback_url
-  //             echo "Webhook called with data: ${data}"
-             
-              
-  //             def props = readJSON text: data
-              
-  //             if (props['status']=='success')
-  //             {
-  //                 echo "success from stg"
-                  
-  //             }
-  //             else
-  //             {
-  //                 echo "failure"
-  //             }
-              
-              
-  //           }
-  //         }
-  //      }
-  // }
+  
 
    
         
