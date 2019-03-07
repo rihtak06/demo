@@ -20,5 +20,25 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8085
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: demo-app-service
+spec:
+  selector:
+    app: spring-boot-demo
+  ports:
+  - protocol: TCP
+    port: 8085
+    targetPort: 8085
+  type: NodePort
+
+
+
+
+
+
+
 
 
