@@ -44,6 +44,7 @@ spec:
            
             steps {
             container('maven') {
+            echo "am from fork repo"
 
             
             
