@@ -1,6 +1,4 @@
-
-
-FROM maven:3.5.4-jdk-8-alpine
+FROM 931604932544.dkr.ecr.us-east-2.amazonaws.com/technology-images:maven-3.5.4-jdk-8-alpine
 LABEL maintainer="steerwise.io"
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     SLEEP=0 \

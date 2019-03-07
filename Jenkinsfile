@@ -160,7 +160,6 @@ pipeline
 
         container('slave-pod') {
             sh 'docker tag $DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER $DOCKER_REGISTRY/test:$DOCKER_REPO-v$BUILD_NUMBER'
-            sh 'docker images'
             sh 'mvn  dockerfile:push -D repo=$DOCKER_REGISTRY/test -D tag=$DOCKER_REPO-v$BUILD_NUMBER'
             sh 'docker rmi $DOCKER_REGISTRY/tmp:$DOCKER_REPO-v$BUILD_NUMBER $DOCKER_REGISTRY/test:$DOCKER_REPO-v$BUILD_NUMBER'
             sh 'aws ecr batch-delete-image --repository-name tmp --image-ids imageTag=$DOCKER_REPO-v$BUILD_NUMBER'
@@ -179,7 +178,7 @@ pipeline
         }
         success
         {
-                bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+                //bitbucketStatusNotify(buildState: 'SUCCESSFUL')
                 emailext body: '${DEFAULT_CONTENT}',subject: '${DEFAULT_SUBJECT}', to: '$DEFAULT_RECIPIENTS'
                 
         } 
