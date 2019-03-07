@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # springboot-crud-demo
 
 Spring Boot CRUD demo is demonstrating how to implement simple CRUD operations with a `Product` entity.
@@ -35,3 +36,7 @@ run this command in the command line:
 ```
 mvn spring-boot:run
 ```
+=======
+# Springboot Microservice
+
+>>>>>>> 1d766c88adfe5e566de2fe4c86e62690563123e5
