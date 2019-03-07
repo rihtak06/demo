@@ -40,9 +40,11 @@ spec:
     
 
     stage('Build') {
+     when{  expression { return params.BUILD==true; } }
            
             steps {
             container('maven') {
+
             
             
                  withCredentials([[
@@ -66,6 +68,7 @@ spec:
         }
 
           stage('Unit Testing') {
+           when{  expression { return params.UNITTEST==true; } }
            
             steps {
             container('maven') {            
@@ -80,7 +83,8 @@ spec:
         } 
 
       stage('Code Quality Analysis') {
-      when { environment name: 'CODEQUALITY', value: True }
+      
+      when{  expression { return params.CODEQUALITY==true; } }
            
             steps {
             container('maven') {
@@ -94,6 +98,7 @@ spec:
             }
         }
 stage('Code Vulnerability Analysis') {
+when{  expression { return params.CODEVULNERABILITY==true; } }
            
             steps {
             container('maven') {
@@ -111,6 +116,7 @@ stage('Code Vulnerability Analysis') {
 
 
   stage("Build Docker Image") {
+  when{  expression { return params.DOCKERIMAGE==true; } }
     
     steps {
 
@@ -120,6 +126,7 @@ stage('Code Vulnerability Analysis') {
     }
   }
   stage("Push Docker Temp Image") {
+   when{  expression { return params.PUSHIMAGETOSCAN==true; } }
     
     steps {
 
@@ -130,6 +137,7 @@ stage('Code Vulnerability Analysis') {
   }
 
   stage('Image Vulnerability Analysis') {
+   when{  expression { return params.IMAGESCAN==true; } }
      
             steps {
              container('maven') {
@@ -140,6 +148,7 @@ stage('Code Vulnerability Analysis') {
             }
         }
   stage("Push Docker Test Image After Vulnerability Analysis") {
+  when{  expression { return params.PUSHIMAGETOTEST==true; } }
     
     steps {
 
